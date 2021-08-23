@@ -32,11 +32,11 @@ namespace MyWebAppWithSwagger.Repository
 
         public async Task RemoveBookAsync(int id)
         {
-            var bookToRemove = _appContext.Books.FirstOrDefaultAsync(b => b.BookId == id);
+            var bookToRemove = await _appContext.Books.FirstOrDefaultAsync(b => b.BookId == id);
             
-            if (bookToRemove.Result != null)
+            if (bookToRemove != null)
             {
-                _appContext.Remove(bookToRemove.Result);
+                _appContext.Remove(bookToRemove);
             }
 
             await _appContext.SaveChangesAsync();
@@ -44,12 +44,12 @@ namespace MyWebAppWithSwagger.Repository
 
         public async Task UpdateBookAsync(int id, Book book)
         {
-            var bookForUpdate = _appContext.Books.FirstOrDefaultAsync(b => b.BookId == id);
+            var bookForUpdate = await _appContext.Books.FirstOrDefaultAsync(b => b.BookId == id);
 
-            if (bookForUpdate.Result != null)
+            if (bookForUpdate != null)
             {
-                bookForUpdate.Result.Name = book.Name;
-                bookForUpdate.Result.Price = book.Price;
+                bookForUpdate.Name = book.Name;
+                bookForUpdate.Price = book.Price;
      
             }
 
