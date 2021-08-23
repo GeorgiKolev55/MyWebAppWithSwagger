@@ -7,11 +7,12 @@ namespace MyWebAppWithSwagger.Service
     public class BookService :IBookService
     {
         private readonly IBookRepository _bookRepository;
+
         public BookService(IBookRepository bookRepository)
         {
             _bookRepository = bookRepository;
         }
-
+        
 
         public async Task AddBook(Book book)
         {
