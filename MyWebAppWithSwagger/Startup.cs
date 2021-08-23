@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyWebAppWithSwagger.Context;
-using MyWebAppWithSwagger.Infrastructure;
 using MyWebAppWithSwagger.Repository;
 using MyWebAppWithSwagger.Service;
 
@@ -26,19 +25,21 @@ namespace MyWebAppWithSwagger
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+                .AddDbContext<MyWebAppWithSwaggerContext>(options=>options
+                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
             services.AddSwaggerGen();
-            services.AddScoped<BookService, BookService>();
+            services.AddScoped<IBookService, BookService>();
             services.AddScoped<IBookRepository, BookRepository>();
-            services.AddDbContext<MyWebAppWithSwaggerContext>(options =>
-           options.UseSqlServer(
-               Configuration.GetConnectionString("DefaultConnection")));
+            
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.PrepareDatabase();
+            
             app.UseSwagger();
 
             if (env.IsDevelopment())

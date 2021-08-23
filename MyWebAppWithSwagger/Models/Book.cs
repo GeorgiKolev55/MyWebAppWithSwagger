@@ -9,7 +9,7 @@ namespace MyWebAppWithSwagger.Models
     public class Book
     {
 
-        [Key]
+       [Required]
         public int BookId { get; set; }
 
         [Required]

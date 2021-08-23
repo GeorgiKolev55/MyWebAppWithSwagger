@@ -8,15 +8,15 @@ namespace MyWebAppWithSwagger.Repository
 {
     public interface IBookRepository
     {
-        public void AddBook(Book book);
+        public Task AddBookAsync(Book book);
 
 
-        public void RemoveBook(Book book);
+        public  Task RemoveBookAsync(int id);
 
 
-        public void UpdateBook(Book book);
+        public Task UpdateBookAsync(int id,Book book);
 
 
-        public Book[] GetAllBooks();
+        public Task<Book[]> GetAllBooksAsync();
     }
 }

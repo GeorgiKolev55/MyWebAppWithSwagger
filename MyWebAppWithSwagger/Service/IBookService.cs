@@ -1,18 +1,19 @@
 ﻿using MyWebAppWithSwagger.Models;
+using System.Threading.Tasks;
 
 namespace MyWebAppWithSwagger.Service
 {
     public interface IBookService
     {
-        public void AddBook(Book book);
+        public Task AddBook(Book book);
 
 
-        public void RemoveBook(Book book);
+        public Task RemoveBook(int id);
 
 
-        public void UpdateBook(Book book);
+        public Task UpdateBook(int id,Book book);
 
 
-        public Book[] GetAllBooks();
+        public Task<Book[]> GetAllBooks();
     }
 }

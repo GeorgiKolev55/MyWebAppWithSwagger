@@ -1,10 +1,10 @@
 ﻿using MyWebAppWithSwagger.Models;
 using MyWebAppWithSwagger.Repository;
-
+using System.Threading.Tasks;
 
 namespace MyWebAppWithSwagger.Service
 {
-    public class BookService
+    public class BookService :IBookService
     {
         private readonly IBookRepository _bookRepository;
         public BookService(IBookRepository bookRepository)
@@ -13,33 +13,29 @@ namespace MyWebAppWithSwagger.Service
         }
 
 
-        public void AddBook(Book book)
+        public async Task AddBook(Book book)
         {
 
-            _bookRepository.AddBook(book);
+           await _bookRepository.AddBookAsync(book);
 
         }
 
 
-        public void RemoveBook(Book book)
+        public async Task RemoveBook(int id)
         {
-
-            _bookRepository.RemoveBook(book);
-
+           await _bookRepository.RemoveBookAsync(id);
         }
 
 
-        public void UpdateBook(Book book)
+        public async Task UpdateBook(int id,Book book)
         {
-
-            _bookRepository.UpdateBook(book);
-
+           await _bookRepository.UpdateBookAsync(id,book);
         }
 
 
-        public Book[] GetAllBooks()
+        public async Task<Book[]> GetAllBooks()
         {
-            return _bookRepository.GetAllBooks();
+            return await _bookRepository.GetAllBooksAsync();
         }
     }
 }

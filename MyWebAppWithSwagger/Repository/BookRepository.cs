@@ -1,4 +1,5 @@
-﻿using MyWebAppWithSwagger.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using MyWebAppWithSwagger.Context;
 using MyWebAppWithSwagger.Models;
 using System;
 using System.Collections.Generic;
@@ -7,37 +8,48 @@ using System.Threading.Tasks;
 
 namespace MyWebAppWithSwagger.Repository
 {
-    public class BookRepository :IBookRepository
+    public class BookRepository : IBookRepository
     {
         private readonly MyWebAppWithSwaggerContext _appContext;
         public BookRepository(MyWebAppWithSwaggerContext appContext)
         {
             _appContext = appContext;
         }
-        public void AddBook(Book book)
+        public async Task AddBookAsync(Book book)
         {
             _appContext.Add(book);
 
-            _appContext.SaveChanges();
+            await _appContext.SaveChangesAsync();
         }
 
-        public Book[] GetAllBooks()
+        public async Task<Book[]> GetAllBooksAsync()
         {
-            return _appContext.Books.ToArray();
+            return await _appContext.Books.ToArrayAsync();
         }
 
-        public void RemoveBook(Book book)
+        public async Task RemoveBookAsync(int id)
         {
-            _appContext.Remove(book);
+            var bookToRemove = _appContext.Books.FirstOrDefaultAsync(b => b.BookId == id);
 
-            _appContext.SaveChanges();
+            if (bookToRemove != null)
+            {
+                _appContext.Remove(bookToRemove);
+            }
+
+            await _appContext.SaveChangesAsync();
         }
 
-        public void UpdateBook(Book book)
+        public async Task UpdateBookAsync(int id, Book book)
         {
-            _appContext.Update(book);
+            var bookForUpdate = _appContext.Books.FirstOrDefaultAsync(b => b.BookId == id);
 
-            _appContext.SaveChanges();
+            if (bookForUpdate != null)
+            {
+                _appContext.Books.Update(book);
+
+                await _appContext.SaveChangesAsync();
+            }
+
         }
     }
 }

@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 namespace MyWebAppWithSwagger.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class HomeController : Controller
+    [Route("library/[controller]")]
+    public class BookController : Controller
     {
         private readonly BookService _bookService;
 
-        public HomeController(BookService bookService)
+        public BookController(BookService bookService)
         {
             _bookService = bookService;
         }
@@ -30,39 +30,38 @@ namespace MyWebAppWithSwagger.Controllers
 
 
         [HttpPost]
-        public IActionResult PostBook(Book book)
+        public async Task<ActionResult> PostBook(Book book)
+        {
+            await _bookService.AddBook(book);
+
+            return Ok();
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteBook(int id)
         {
 
-            _bookService.AddBook(book);
+           await _bookService.RemoveBook(id);
+
             return Ok();
 
         }
 
 
-        [HttpDelete]
-        public IActionResult DeleteBoo(Book book)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> PutBook(int id,Book book)
         {
-
-            _bookService.RemoveBook(book);
-
-            return Ok();
-
-        }
-
-
-        [HttpPut]
-        public IActionResult PutBook(Book book)
-        {
-            _bookService.UpdateBook(book);
+           await _bookService.UpdateBook(id,book);
 
             return Ok();
         }
 
 
         [HttpGet]
-        public ActionResult<Book[]> GetAll()
+        public async Task<Book[]> GetBooks()
         {
-            return _bookService.GetAllBooks();
+            return await _bookService.GetAllBooks();
         }
 
     }
