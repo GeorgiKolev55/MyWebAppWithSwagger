@@ -21,16 +21,10 @@ namespace MyWebAppWithSwagger.Controllers
             _bookService = bookService;
         }
 
-
-        [HttpGet("/")]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+     
 
         [HttpPost]
-        public async Task<ActionResult> PostBook(Book book)
+        public async Task<IActionResult> PostBook(Book book)
         {
             await _bookService.AddBook(book);
 
@@ -39,7 +33,7 @@ namespace MyWebAppWithSwagger.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteBook(int id)
+        public async Task<IActionResult> DeleteBook(int id)
         {
 
            await _bookService.RemoveBook(id);
@@ -50,7 +44,7 @@ namespace MyWebAppWithSwagger.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutBook(int id,Book book)
+        public async Task<IActionResult> PutBook(int id,Book book)
         {
            await _bookService.UpdateBook(id,book);
 
